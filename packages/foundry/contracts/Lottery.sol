@@ -17,20 +17,38 @@ Functions */
 
 //SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8;
+pragma solidity ^0.8.19;
+
+import {PriceConverter} from "./PriceConverter.sol";
 
 contract Lottery {
-    uint256 private constant MIN_AMOUNT = 0.1 ether;
+    uint256 private constant MIN_AMOUNT_TO_FUND = 0.1 ether;
 
-    address[] private participants;
-    mapping(address => uint256) participansToAmountFunded;
+    address[] private s_participants;
+    mapping(address => uint256) private s_participansToAmountFunded;
+    // just so I can test price converter
+    uint256 private etherInUsd;
 
     error Error_NotEnoughEthFunded();
 
     function fundLottery() public payable {
-        if (msg.value < MIN_AMOUNT) {
+        if (msg.value < MIN_AMOUNT_TO_FUND) {
             revert Error_NotEnoughEthFunded();
         }
-        participants.push(msg.sender);
+        s_participants.push(msg.sender);
+        s_participansToAmountFunded[msg.sender] += msg.value;
+    }
+
+    function pickWinner() private {}
+
+    /** Getters */
+    function getParticipans() public view returns (address[] memory) {
+        return s_participants;
+    }
+
+    function getAmountFundedByParticipant(
+        address _participant
+    ) public view returns (uint256) {
+        return s_participansToAmountFunded[_participant];
     }
 }
