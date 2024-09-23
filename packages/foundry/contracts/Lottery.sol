@@ -25,15 +25,23 @@ import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces
 contract Lottery {
     using PriceConverter for uint256;
 
-    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
+    /** Events */
+    event LotteryFunded(address indexed, uint256);
 
+    /** Errors */
+    error NotEnoughEthFunded();
+
+    /** Type declarations */
+
+    /** Variables */
     address[] private s_participants;
     mapping(address => uint256) private s_participantsToAmountFunded;
-    // just so I can test price converter
-
     AggregatorV3Interface private s_priceFeed;
 
-    error NotEnoughEthFunded();
+    /** Constants */
+    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
+
+    /** Modifiers */
 
     constructor(AggregatorV3Interface priceFeed) {
         s_priceFeed = priceFeed;
@@ -50,6 +58,8 @@ contract Lottery {
         }
         s_participants.push(msg.sender);
         s_participantsToAmountFunded[msg.sender] += msg.value;
+
+        emit LotteryFunded(msg.sender, msg.value);
     }
 
     function pickWinner() private {}

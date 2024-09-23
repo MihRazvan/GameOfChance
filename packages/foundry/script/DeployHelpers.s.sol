@@ -17,8 +17,6 @@ contract ScaffoldETHDeploy is Script {
         address priceFeed;
     }
 
-    Config public config;
-
     uint8 public constant DECIMALS = 8;
     int256 public constant INITIAL_PRICE = 2640e8;
 
