@@ -6,27 +6,41 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 
 const deployedContracts = {
   31337: {
-    YourContract: {
+    MockV3Aggregator: {
       address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
       abi: [
         {
           type: "constructor",
           inputs: [
             {
-              name: "_owner",
-              type: "address",
-              internalType: "address",
+              name: "_decimals",
+              type: "uint8",
+              internalType: "uint8",
+            },
+            {
+              name: "_initialAnswer",
+              type: "int256",
+              internalType: "int256",
             },
           ],
           stateMutability: "nonpayable",
         },
         {
-          type: "receive",
-          stateMutability: "payable",
+          type: "function",
+          name: "decimals",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint8",
+              internalType: "uint8",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "function",
-          name: "greeting",
+          name: "description",
           inputs: [],
           outputs: [
             {
@@ -35,50 +49,101 @@ const deployedContracts = {
               internalType: "string",
             },
           ],
-          stateMutability: "view",
+          stateMutability: "pure",
         },
         {
           type: "function",
-          name: "owner",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "address",
-              internalType: "address",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "premium",
-          inputs: [],
-          outputs: [
-            {
-              name: "",
-              type: "bool",
-              internalType: "bool",
-            },
-          ],
-          stateMutability: "view",
-        },
-        {
-          type: "function",
-          name: "setGreeting",
+          name: "getAnswer",
           inputs: [
             {
-              name: "_newGreeting",
-              type: "string",
-              internalType: "string",
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
             },
           ],
-          outputs: [],
-          stateMutability: "payable",
+          outputs: [
+            {
+              name: "",
+              type: "int256",
+              internalType: "int256",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "function",
-          name: "totalCounter",
+          name: "getRoundData",
+          inputs: [
+            {
+              name: "_roundId",
+              type: "uint80",
+              internalType: "uint80",
+            },
+          ],
+          outputs: [
+            {
+              name: "roundId",
+              type: "uint80",
+              internalType: "uint80",
+            },
+            {
+              name: "answer",
+              type: "int256",
+              internalType: "int256",
+            },
+            {
+              name: "startedAt",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "updatedAt",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "answeredInRound",
+              type: "uint80",
+              internalType: "uint80",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getTimestamp",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "latestAnswer",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "int256",
+              internalType: "int256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "latestRound",
           inputs: [],
           outputs: [
             {
@@ -91,14 +156,41 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "userGreetingCounter",
-          inputs: [
+          name: "latestRoundData",
+          inputs: [],
+          outputs: [
             {
-              name: "",
-              type: "address",
-              internalType: "address",
+              name: "roundId",
+              type: "uint80",
+              internalType: "uint80",
+            },
+            {
+              name: "answer",
+              type: "int256",
+              internalType: "int256",
+            },
+            {
+              name: "startedAt",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "updatedAt",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "answeredInRound",
+              type: "uint80",
+              internalType: "uint80",
             },
           ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "latestTimestamp",
+          inputs: [],
           outputs: [
             {
               name: "",
@@ -110,41 +202,203 @@ const deployedContracts = {
         },
         {
           type: "function",
-          name: "withdraw",
-          inputs: [],
+          name: "updateAnswer",
+          inputs: [
+            {
+              name: "_answer",
+              type: "int256",
+              internalType: "int256",
+            },
+          ],
           outputs: [],
           stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "updateRoundData",
+          inputs: [
+            {
+              name: "_roundId",
+              type: "uint80",
+              internalType: "uint80",
+            },
+            {
+              name: "_answer",
+              type: "int256",
+              internalType: "int256",
+            },
+            {
+              name: "_timestamp",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_startedAt",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "version",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
         },
         {
           type: "event",
-          name: "GreetingChange",
+          name: "AnswerUpdated",
           inputs: [
             {
-              name: "greetingSetter",
-              type: "address",
+              name: "current",
+              type: "int256",
               indexed: true,
-              internalType: "address",
+              internalType: "int256",
             },
             {
-              name: "newGreeting",
-              type: "string",
-              indexed: false,
-              internalType: "string",
+              name: "roundId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
             },
             {
-              name: "premium",
-              type: "bool",
-              indexed: false,
-              internalType: "bool",
-            },
-            {
-              name: "value",
+              name: "updatedAt",
               type: "uint256",
               indexed: false,
               internalType: "uint256",
             },
           ],
           anonymous: false,
+        },
+        {
+          type: "event",
+          name: "NewRound",
+          inputs: [
+            {
+              name: "roundId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "startedBy",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "startedAt",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+      ],
+      inheritedFunctions: {
+        decimals: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        description: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        getAnswer: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        getRoundData:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        getTimestamp:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        latestAnswer:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        latestRound: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        latestRoundData:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        latestTimestamp:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+        version: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
+      },
+    },
+    Lottery: {
+      address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "priceFeed",
+              type: "address",
+              internalType: "contract AggregatorV3Interface",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "fundLottery",
+          inputs: [],
+          outputs: [],
+          stateMutability: "payable",
+        },
+        {
+          type: "function",
+          name: "getAmountFundedByParticipant",
+          inputs: [
+            {
+              name: "_participant",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getEtherInUsd",
+          inputs: [
+            {
+              name: "_ethValue",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getParticipants",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address[]",
+              internalType: "address[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "error",
+          name: "NotEnoughEthFunded",
+          inputs: [],
         },
       ],
       inheritedFunctions: {},

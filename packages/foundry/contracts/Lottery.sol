@@ -22,7 +22,7 @@ pragma solidity ^0.8.19;
 import {PriceConverter} from "./PriceConverter.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
-import {VRFV2PlusClient} from "@chainlink/contracts/v0.8/dev/vrf/libraries/VRFV2PlusClient.sol";
+import {VRFV2PlusClient} from "@chainlink/contracts/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
 contract Lottery is VRFConsumerBaseV2Plus {
     using PriceConverter for uint256;
@@ -108,8 +108,9 @@ contract Lottery is VRFConsumerBaseV2Plus {
         returns (uint256 requestId)
     {
         // Will revert if subscription is not set and funded.
-        requestId = s_vrfCoordinator.requestRandomWords(
-            VRFV2PlusClient.RandomWordsRequest({
+
+        VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
+            .RandomWordsRequest({
                 keyHash: keyHash,
                 subId: s_subscriptionId,
                 requestConfirmations: requestConfirmations,
@@ -118,8 +119,8 @@ contract Lottery is VRFConsumerBaseV2Plus {
                 extraArgs: VRFV2PlusClient._argsToBytes(
                     VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )
-            })
-        );
+            });
+        requestId = s_vrfCoordinator.requestRandomWords(request);
         s_requests[requestId] = RequestStatus({
             randomWords: new uint256[](0),
             exists: true,
