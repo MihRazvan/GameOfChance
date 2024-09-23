@@ -1,30 +1,33 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 import "../contracts/Lottery.sol";
-import "../contracts/PriceConverter.sol";
 import "./DeployHelpers.s.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
+    address public priceFeed;
+
     function run() external {
+        // Since we inherit from ScaffoldETHDeploy, we can call getConfig() directly
+        priceFeed = getConfig();
+
         vm.startBroadcast();
 
-        Lottery Lottery = new Lottery(
-            AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306)
-        );
+        Lottery lottery = new Lottery(AggregatorV3Interface(priceFeed));
+
+        // Add the Lottery deployment to the deployments array
+        deployments.push(Deployment({name: "Lottery", addr: address(lottery)}));
 
         vm.stopBroadcast();
 
         /**
-         * This function generates the file containing the contracts Abi definitions.
-         * These definitions are used to derive the types needed in the custom scaffold-eth hooks, for example.
+         * This function generates the file containing the contracts ABI definitions.
+         * These definitions are used to derive the types needed in custom scaffold-eth hooks, for example.
          * This function should be called last.
          */
         exportDeployments();
     }
-
-    function test() public {}
 }

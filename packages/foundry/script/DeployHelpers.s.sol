@@ -1,16 +1,26 @@
-//SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
-import "forge-std/Vm.sol";
+import {MockV3Aggregator} from "@chainlink/contracts/v0.8/tests/MockV3Aggregator.sol";
 
 contract ScaffoldETHDeploy is Script {
     error InvalidChain();
+    error NoConfigFound();
 
     struct Deployment {
         string name;
         address addr;
     }
+
+    struct Config {
+        address priceFeed;
+    }
+
+    Config public config;
+
+    uint8 public constant DECIMALS = 8;
+    int256 public constant INITIAL_PRICE = 2000e8;
 
     uint256 public constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 public constant LOCAL_CHAIN_ID = 31337;
@@ -19,29 +29,60 @@ contract ScaffoldETHDeploy is Script {
     string path;
     Deployment[] public deployments;
 
+    function getConfig() public returns (address) {
+        if (block.chainid == ETH_SEPOLIA_CHAIN_ID) {
+            return 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+        } else if (block.chainid == LOCAL_CHAIN_ID) {
+            return deployMockAndGetLocalConfig();
+        } else {
+            revert NoConfigFound();
+        }
+    }
+
+    function deployMockAndGetLocalConfig() public returns (address) {
+        vm.startBroadcast();
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
+            DECIMALS,
+            INITIAL_PRICE
+        );
+        vm.stopBroadcast();
+
+        // Add the mock price feed deployment to the deployments array
+        deployments.push(
+            Deployment({name: "MockV3Aggregator", addr: address(mockPriceFeed)})
+        );
+
+        return address(mockPriceFeed);
+    }
+
     /**
-     * This function generates the file containing the contracts Abi definitions.
-     * These definitions are used to derive the types needed in the custom scaffold-eth hooks, for example.
+     * This function generates the file containing the contracts ABI definitions.
+     * These definitions are used to derive the types needed in custom scaffold-eth hooks, for example.
      * This function should be called last.
      */
-
     function exportDeployments() internal {
-        // fetch already existing contracts
+        uint256 len = deployments.length;
+
+        // Use 'deployments' as the object key
+        for (uint256 i = 0; i < len; i++) {
+            // Serialize each deployment under the 'deployments' object
+            vm.serializeAddress(
+                "deployments",
+                deployments[i].name,
+                deployments[i].addr
+            );
+        }
+
+        // Retrieve the serialized JSON string
+        string memory json = vm.serializeJson("deployments", "");
+
+        // Construct the file path
         root = vm.projectRoot();
         path = string.concat(root, "/deployments/");
         string memory chainIdStr = vm.toString(block.chainid);
-        path = string.concat(path, string.concat(chainIdStr, ".json"));
+        path = string.concat(path, chainIdStr, ".json");
 
-        string memory jsonWrite;
-
-        uint256 len = deployments.length;
-
-        for (uint256 i = 0; i < len; i++) {
-            vm.serializeString(
-                jsonWrite,
-                vm.toString(deployments[i].addr),
-                deployments[i].name
-            );
-        }
+        // Write the JSON to the file
+        vm.writeJson(json, path);
     }
 }
