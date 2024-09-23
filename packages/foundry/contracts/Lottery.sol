@@ -33,7 +33,7 @@ contract Lottery {
 
     AggregatorV3Interface private s_priceFeed;
 
-    error Error_NotEnoughEthFunded();
+    error NotEnoughEthFunded();
 
     constructor(AggregatorV3Interface priceFeed) {
         s_priceFeed = priceFeed;
@@ -46,7 +46,7 @@ contract Lottery {
     function fundLottery() public payable {
         uint256 ethAmountInUsd = msg.value.getConversionRate(s_priceFeed);
         if (ethAmountInUsd < MIN_AMOUNT_TO_FUND) {
-            revert Error_NotEnoughEthFunded();
+            revert NotEnoughEthFunded();
         }
         s_participants.push(msg.sender);
         s_participantsToAmountFunded[msg.sender] += msg.value;

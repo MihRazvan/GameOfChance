@@ -13,8 +13,9 @@ contract DeployScript is ScaffoldETHDeploy {
     function run() external {
         // Since we inherit from ScaffoldETHDeploy, we can call getConfig() directly
         priceFeed = getConfig();
+        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
 
-        vm.startBroadcast();
+        vm.startBroadcast(deployerPrivateKey);
 
         Lottery lottery = new Lottery(AggregatorV3Interface(priceFeed));
 

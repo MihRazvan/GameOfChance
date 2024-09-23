@@ -20,7 +20,7 @@ contract ScaffoldETHDeploy is Script {
     Config public config;
 
     uint8 public constant DECIMALS = 8;
-    int256 public constant INITIAL_PRICE = 2000e8;
+    int256 public constant INITIAL_PRICE = 2640e8;
 
     uint256 public constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 public constant LOCAL_CHAIN_ID = 31337;
@@ -40,7 +40,8 @@ contract ScaffoldETHDeploy is Script {
     }
 
     function deployMockAndGetLocalConfig() public returns (address) {
-        vm.startBroadcast();
+        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
+        vm.startBroadcast(deployerPrivateKey);
         MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
             DECIMALS,
             INITIAL_PRICE
@@ -73,16 +74,13 @@ contract ScaffoldETHDeploy is Script {
             );
         }
 
-        // Retrieve the serialized JSON string
-        string memory json = vm.serializeJson("deployments", "");
-
         // Construct the file path
         root = vm.projectRoot();
         path = string.concat(root, "/deployments/");
         string memory chainIdStr = vm.toString(block.chainid);
         path = string.concat(path, chainIdStr, ".json");
 
-        // Write the JSON to the file
-        vm.writeJson(json, path);
+        // Write the JSON to the file using the object key directly
+        vm.writeJson("deployments", path);
     }
 }
