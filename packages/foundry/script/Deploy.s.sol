@@ -2,26 +2,18 @@
 pragma solidity ^0.8.19;
 
 import "../contracts/Lottery.sol";
+import "../contracts/PriceConverter.sol";
 import "./DeployHelpers.s.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
     function run() external {
-        uint256 deployerPrivateKey = setupLocalhostEnv();
-        if (deployerPrivateKey == 0) {
-            revert InvalidPrivateKey(
-                "You don't have a deployer account. Make sure you have set DEPLOYER_PRIVATE_KEY in .env or use `yarn generate` to generate a new random account"
-            );
-        }
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast();
 
-        Lottery Lottery = new Lottery();
-        console.logString(
-            string.concat(
-                "Lottery deployed at: ",
-                vm.toString(address(Lottery))
-            )
+        Lottery Lottery = new Lottery(
+            AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306)
         );
 
         vm.stopBroadcast();

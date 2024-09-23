@@ -20,35 +20,48 @@ Functions */
 pragma solidity ^0.8.19;
 
 import {PriceConverter} from "./PriceConverter.sol";
+import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 contract Lottery {
-    uint256 private constant MIN_AMOUNT_TO_FUND = 0.1 ether;
+    using PriceConverter for uint256;
+
+    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
 
     address[] private s_participants;
-    mapping(address => uint256) private s_participansToAmountFunded;
+    mapping(address => uint256) private s_participantsToAmountFunded;
     // just so I can test price converter
-    uint256 private etherInUsd;
+
+    AggregatorV3Interface private s_priceFeed;
 
     error Error_NotEnoughEthFunded();
 
+    constructor(AggregatorV3Interface priceFeed) {
+        s_priceFeed = priceFeed;
+    }
+
+    function getEtherInUsd(uint256 _ethValue) public view returns (uint256) {
+        return _ethValue.getConversionRate(s_priceFeed);
+    }
+
     function fundLottery() public payable {
-        if (msg.value < MIN_AMOUNT_TO_FUND) {
+        uint256 ethAmountInUsd = msg.value.getConversionRate(s_priceFeed);
+        if (ethAmountInUsd < MIN_AMOUNT_TO_FUND) {
             revert Error_NotEnoughEthFunded();
         }
         s_participants.push(msg.sender);
-        s_participansToAmountFunded[msg.sender] += msg.value;
+        s_participantsToAmountFunded[msg.sender] += msg.value;
     }
 
     function pickWinner() private {}
 
     /** Getters */
-    function getParticipans() public view returns (address[] memory) {
+    function getParticipants() public view returns (address[] memory) {
         return s_participants;
     }
 
     function getAmountFundedByParticipant(
         address _participant
     ) public view returns (uint256) {
-        return s_participansToAmountFunded[_participant];
+        return s_participantsToAmountFunded[_participant];
     }
 }
