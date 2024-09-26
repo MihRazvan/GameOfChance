@@ -323,8 +323,1231 @@ const deployedContracts = {
         version: "lib/chainlink-brownie-contracts/contracts/src/v0.8/shared/interfaces/AggregatorV2V3Interface.sol",
       },
     },
-    Lottery: {
+    VRFCoordinatorV2_5Mock: {
       address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      abi: [
+        {
+          type: "constructor",
+          inputs: [
+            {
+              name: "_baseFee",
+              type: "uint96",
+              internalType: "uint96",
+            },
+            {
+              name: "_gasPrice",
+              type: "uint96",
+              internalType: "uint96",
+            },
+            {
+              name: "_weiPerUnitLink",
+              type: "int256",
+              internalType: "int256",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "LINK",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract LinkTokenInterface",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "LINK_NATIVE_FEED",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract AggregatorV3Interface",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "MAX_CONSUMERS",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint16",
+              internalType: "uint16",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "acceptOwnership",
+          inputs: [],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "acceptSubscriptionOwnerTransfer",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "addConsumer",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "consumer",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "cancelSubscription",
+          inputs: [
+            {
+              name: "_subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_to",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "consumerIsAdded",
+          inputs: [
+            {
+              name: "_subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_consumer",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "createSubscription",
+          inputs: [],
+          outputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "fulfillRandomWords",
+          inputs: [
+            {
+              name: "_requestId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_consumer",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "fulfillRandomWordsWithOverride",
+          inputs: [
+            {
+              name: "_requestId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_consumer",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "_words",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "fundSubscription",
+          inputs: [
+            {
+              name: "_subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_amount",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "fundSubscriptionWithNative",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "payable",
+        },
+        {
+          type: "function",
+          name: "getActiveSubscriptionIds",
+          inputs: [
+            {
+              name: "startIndex",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "maxCount",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "ids",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getSubscription",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "balance",
+              type: "uint96",
+              internalType: "uint96",
+            },
+            {
+              name: "nativeBalance",
+              type: "uint96",
+              internalType: "uint96",
+            },
+            {
+              name: "reqCount",
+              type: "uint64",
+              internalType: "uint64",
+            },
+            {
+              name: "subOwner",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "consumers",
+              type: "address[]",
+              internalType: "address[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "i_base_fee",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint96",
+              internalType: "uint96",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "i_gas_price",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint96",
+              internalType: "uint96",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "i_wei_per_unit_link",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "int256",
+              internalType: "int256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "onTokenTransfer",
+          inputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "amount",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "data",
+              type: "bytes",
+              internalType: "bytes",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "owner",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "ownerCancelSubscription",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "pendingRequestExists",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "pure",
+        },
+        {
+          type: "function",
+          name: "recoverFunds",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "recoverNativeFunds",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              internalType: "address payable",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "removeConsumer",
+          inputs: [
+            {
+              name: "_subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "_consumer",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "requestRandomWords",
+          inputs: [
+            {
+              name: "_req",
+              type: "tuple",
+              internalType: "struct VRFV2PlusClient.RandomWordsRequest",
+              components: [
+                {
+                  name: "keyHash",
+                  type: "bytes32",
+                  internalType: "bytes32",
+                },
+                {
+                  name: "subId",
+                  type: "uint256",
+                  internalType: "uint256",
+                },
+                {
+                  name: "requestConfirmations",
+                  type: "uint16",
+                  internalType: "uint16",
+                },
+                {
+                  name: "callbackGasLimit",
+                  type: "uint32",
+                  internalType: "uint32",
+                },
+                {
+                  name: "numWords",
+                  type: "uint32",
+                  internalType: "uint32",
+                },
+                {
+                  name: "extraArgs",
+                  type: "bytes",
+                  internalType: "bytes",
+                },
+              ],
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "requestSubscriptionOwnerTransfer",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "newOwner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "s_config",
+          inputs: [],
+          outputs: [
+            {
+              name: "minimumRequestConfirmations",
+              type: "uint16",
+              internalType: "uint16",
+            },
+            {
+              name: "maxGasLimit",
+              type: "uint32",
+              internalType: "uint32",
+            },
+            {
+              name: "reentrancyLock",
+              type: "bool",
+              internalType: "bool",
+            },
+            {
+              name: "stalenessSeconds",
+              type: "uint32",
+              internalType: "uint32",
+            },
+            {
+              name: "gasAfterPaymentCalculation",
+              type: "uint32",
+              internalType: "uint32",
+            },
+            {
+              name: "fulfillmentFlatFeeNativePPM",
+              type: "uint32",
+              internalType: "uint32",
+            },
+            {
+              name: "fulfillmentFlatFeeLinkDiscountPPM",
+              type: "uint32",
+              internalType: "uint32",
+            },
+            {
+              name: "nativePremiumPercentage",
+              type: "uint8",
+              internalType: "uint8",
+            },
+            {
+              name: "linkPremiumPercentage",
+              type: "uint8",
+              internalType: "uint8",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "s_currentSubNonce",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint64",
+              internalType: "uint64",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "s_totalBalance",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint96",
+              internalType: "uint96",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "s_totalNativeBalance",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint96",
+              internalType: "uint96",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "setConfig",
+          inputs: [],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "setLINKAndLINKNativeFeed",
+          inputs: [
+            {
+              name: "link",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "linkNativeFeed",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "transferOwnership",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "withdraw",
+          inputs: [
+            {
+              name: "recipient",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "withdrawNative",
+          inputs: [
+            {
+              name: "recipient",
+              type: "address",
+              internalType: "address payable",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "event",
+          name: "ConfigSet",
+          inputs: [],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "FundsRecovered",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "amount",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "NativeFundsRecovered",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "amount",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OwnershipTransferRequested",
+          inputs: [
+            {
+              name: "from",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OwnershipTransferred",
+          inputs: [
+            {
+              name: "from",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RandomWordsFulfilled",
+          inputs: [
+            {
+              name: "requestId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "outputSeed",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "payment",
+              type: "uint96",
+              indexed: false,
+              internalType: "uint96",
+            },
+            {
+              name: "nativePayment",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+            {
+              name: "success",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+            {
+              name: "onlyPremium",
+              type: "bool",
+              indexed: false,
+              internalType: "bool",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RandomWordsRequested",
+          inputs: [
+            {
+              name: "keyHash",
+              type: "bytes32",
+              indexed: true,
+              internalType: "bytes32",
+            },
+            {
+              name: "requestId",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "preSeed",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "minimumRequestConfirmations",
+              type: "uint16",
+              indexed: false,
+              internalType: "uint16",
+            },
+            {
+              name: "callbackGasLimit",
+              type: "uint32",
+              indexed: false,
+              internalType: "uint32",
+            },
+            {
+              name: "numWords",
+              type: "uint32",
+              indexed: false,
+              internalType: "uint32",
+            },
+            {
+              name: "extraArgs",
+              type: "bytes",
+              indexed: false,
+              internalType: "bytes",
+            },
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionCanceled",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "amountLink",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "amountNative",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionConsumerAdded",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "consumer",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionConsumerRemoved",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "consumer",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionCreated",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "owner",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionFunded",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "oldBalance",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "newBalance",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionFundedWithNative",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "oldNativeBalance",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "newNativeBalance",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionOwnerTransferRequested",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "from",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "SubscriptionOwnerTransferred",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              indexed: true,
+              internalType: "uint256",
+            },
+            {
+              name: "from",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "error",
+          name: "BalanceInvariantViolated",
+          inputs: [
+            {
+              name: "internalBalance",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "externalBalance",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "FailedToSendNative",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "FailedToTransferLink",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "IndexOutOfRange",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InsufficientBalance",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InvalidCalldata",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InvalidConsumer",
+          inputs: [
+            {
+              name: "subId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "consumer",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "InvalidExtraArgsTag",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InvalidRandomWords",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InvalidRequest",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "InvalidSubscription",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "LinkAlreadySet",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "LinkNotSet",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "MustBeRequestedOwner",
+          inputs: [
+            {
+              name: "proposedOwner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "MustBeSubOwner",
+          inputs: [
+            {
+              name: "owner",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "NotImplemented",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "OnlyCallableFromLink",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "PendingRequestExists",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "Reentrant",
+          inputs: [],
+        },
+        {
+          type: "error",
+          name: "TooManyConsumers",
+          inputs: [],
+        },
+      ],
+      inheritedFunctions: {
+        LINK: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        LINK_NATIVE_FEED: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        MAX_CONSUMERS: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        acceptOwnership: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        acceptSubscriptionOwnerTransfer:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        addConsumer: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        cancelSubscription:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        createSubscription:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        fundSubscriptionWithNative:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        getActiveSubscriptionIds:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        getSubscription:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        onTokenTransfer: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        owner: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        ownerCancelSubscription: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        pendingRequestExists:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        recoverFunds: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        recoverNativeFunds: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        removeConsumer:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        requestSubscriptionOwnerTransfer:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+        s_config: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        s_currentSubNonce: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        s_totalBalance: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        s_totalNativeBalance: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        setLINKAndLINKNativeFeed: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        transferOwnership: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        withdraw: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        withdrawNative: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/SubscriptionAPI.sol",
+        requestRandomWords:
+          "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol",
+      },
+    },
+    Lottery: {
+      address: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
       abi: [
         {
           type: "constructor",
@@ -332,9 +1555,36 @@ const deployedContracts = {
             {
               name: "priceFeed",
               type: "address",
-              internalType: "contract AggregatorV3Interface",
+              internalType: "address",
+            },
+            {
+              name: "vrfCoordinator",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "subscriptionId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "gasLane",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+            {
+              name: "callbackGasLimit",
+              type: "uint32",
+              internalType: "uint32",
             },
           ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "acceptOwnership",
+          inputs: [],
+          outputs: [],
           stateMutability: "nonpayable",
         },
         {
@@ -396,12 +1646,326 @@ const deployedContracts = {
           stateMutability: "view",
         },
         {
+          type: "function",
+          name: "getRequestStatus",
+          inputs: [
+            {
+              name: "_requestId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "fulfilled",
+              type: "bool",
+              internalType: "bool",
+            },
+            {
+              name: "randomWords",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "lastRequestId",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "owner",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "rawFulfillRandomWords",
+          inputs: [
+            {
+              name: "requestId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+            {
+              name: "randomWords",
+              type: "uint256[]",
+              internalType: "uint256[]",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "requestIds",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "requestRandomWords",
+          inputs: [],
+          outputs: [
+            {
+              name: "requestId",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "s_requests",
+          inputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          outputs: [
+            {
+              name: "fulfilled",
+              type: "bool",
+              internalType: "bool",
+            },
+            {
+              name: "exists",
+              type: "bool",
+              internalType: "bool",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "s_vrfCoordinator",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "contract IVRFCoordinatorV2Plus",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "setCoordinator",
+          inputs: [
+            {
+              name: "_vrfCoordinator",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "function",
+          name: "transferOwnership",
+          inputs: [
+            {
+              name: "to",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+          outputs: [],
+          stateMutability: "nonpayable",
+        },
+        {
+          type: "event",
+          name: "CoordinatorSet",
+          inputs: [
+            {
+              name: "vrfCoordinator",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "LotteryFunded",
+          inputs: [
+            {
+              name: "sender",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "amountSent",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OwnershipTransferRequested",
+          inputs: [
+            {
+              name: "from",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "OwnershipTransferred",
+          inputs: [
+            {
+              name: "from",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+            {
+              name: "to",
+              type: "address",
+              indexed: true,
+              internalType: "address",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RequestFulfilled",
+          inputs: [
+            {
+              name: "requestId",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "randomWords",
+              type: "uint256[]",
+              indexed: false,
+              internalType: "uint256[]",
+            },
+          ],
+          anonymous: false,
+        },
+        {
+          type: "event",
+          name: "RequestSent",
+          inputs: [
+            {
+              name: "requestId",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
           type: "error",
           name: "NotEnoughEthFunded",
           inputs: [],
         },
+        {
+          type: "error",
+          name: "OnlyCoordinatorCanFulfill",
+          inputs: [
+            {
+              name: "have",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "want",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "OnlyOwnerOrCoordinator",
+          inputs: [
+            {
+              name: "have",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "owner",
+              type: "address",
+              internalType: "address",
+            },
+            {
+              name: "coordinator",
+              type: "address",
+              internalType: "address",
+            },
+          ],
+        },
+        {
+          type: "error",
+          name: "ZeroAddress",
+          inputs: [],
+        },
       ],
-      inheritedFunctions: {},
+      inheritedFunctions: {
+        acceptOwnership: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        owner: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        rawFulfillRandomWords: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        s_vrfCoordinator: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        setCoordinator: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+        transferOwnership: "lib/chainlink-brownie-contracts/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol",
+      },
     },
   },
 } as const;

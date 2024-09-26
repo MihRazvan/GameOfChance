@@ -23,6 +23,7 @@ contract ScaffoldETHDeploy is Script {
         uint32 callbackGasLimit;
         uint256 automationUpdateInterval;
         address link;
+        address account;
     }
 
     uint8 public constant DECIMALS = 8;
@@ -44,9 +45,16 @@ contract ScaffoldETHDeploy is Script {
 
     function getConfig() public returns (Config memory) {
         if (block.chainid == ETH_SEPOLIA_CHAIN_ID) {
-            config.vrfCoordinator = 0x9ddfaca8183c41ad55329bdeed9f6a8d53168b1b;
-            config.priceFeed = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
-            config.link = 0x514910771AF9Ca656af840dff83E8264EcF986CA;
+            config = Config({
+                subscriptionId: 60870646375565463954566831629343782343009001059421670546806704696565500871034,
+                gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
+                automationUpdateInterval: 30, // 30 seconds
+                callbackGasLimit: 500000, // 500,000 gas
+                account: 0x33a5608b3d641114f4d07576f2a6552baec9baa7,
+                vrfCoordinator: 0x9ddfaca8183c41ad55329bdeed9f6a8d53168b1b,
+                priceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306,
+                link: 0x514910771AF9Ca656af840dff83E8264EcF986CA9
+            });
             return config;
         } else if (block.chainid == LOCAL_CHAIN_ID) {
             return deployMockAndGetLocalConfig();
@@ -81,6 +89,7 @@ contract ScaffoldETHDeploy is Script {
                 addr: address(mockVrfCoordinator)
             })
         );
+        deployments.push(Deployment({name: "LinkToken", addr: address(link)}));
 
         config.priceFeed = address(mockPriceFeed);
         config.vrfCoordinator = address(mockVrfCoordinator);
@@ -91,7 +100,9 @@ contract ScaffoldETHDeploy is Script {
             automationUpdateInterval: 30, // 30 seconds
             callbackGasLimit: 500000, // 500,000 gas
             vrfCoordinator: address(mockVrfCoordinator),
-            priceFeed: address(mockPriceFeed)
+            priceFeed: address(mockPriceFeed),
+            link: address(link),
+            account: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
         });
         return config;
     }
