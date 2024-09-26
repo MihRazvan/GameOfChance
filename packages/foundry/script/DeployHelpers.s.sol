@@ -2,6 +2,7 @@
 pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
+import {LinkToken} from "../test/mocks/LinkToken.sol";
 import {MockV3Aggregator} from "@chainlink/contracts/v0.8/tests/MockV3Aggregator.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 
@@ -20,6 +21,8 @@ contract ScaffoldETHDeploy is Script {
         uint256 subscriptionId;
         bytes32 gasLane;
         uint32 callbackGasLimit;
+        uint256 automationUpdateInterval;
+        address link;
     }
 
     uint8 public constant DECIMALS = 8;
@@ -41,8 +44,9 @@ contract ScaffoldETHDeploy is Script {
 
     function getConfig() public returns (Config memory) {
         if (block.chainid == ETH_SEPOLIA_CHAIN_ID) {
-            config.vrfCoordinator = 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B;
+            config.vrfCoordinator = 0x9ddfaca8183c41ad55329bdeed9f6a8d53168b1b;
             config.priceFeed = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+            config.link = 0x514910771AF9Ca656af840dff83E8264EcF986CA;
             return config;
         } else if (block.chainid == LOCAL_CHAIN_ID) {
             return deployMockAndGetLocalConfig();
@@ -63,6 +67,8 @@ contract ScaffoldETHDeploy is Script {
             MOCK_GAS_PRICE_LINK,
             MOCK_WEI_PER_UINT_LINK
         );
+        LinkToken link = new LinkToken();
+        uint256 subscriptionId = vrfCoordinatorV2_5Mock.createSubscription();
         vm.stopBroadcast();
 
         // Add the mock price feed deployment to the deployments array
@@ -78,6 +84,15 @@ contract ScaffoldETHDeploy is Script {
 
         config.priceFeed = address(mockPriceFeed);
         config.vrfCoordinator = address(mockVrfCoordinator);
+
+        config = Config({
+            subscriptionId: subscriptionId,
+            gasLane: 0x474e34a077df58807dbe9c96d3c009b23b3c6d0cce433e59bbf5b34f823bc56c, // doesn't really matter
+            automationUpdateInterval: 30, // 30 seconds
+            callbackGasLimit: 500000, // 500,000 gas
+            vrfCoordinator: address(mockVrfCoordinator),
+            priceFeed: address(mockPriceFeed)
+        });
         return config;
     }
 
