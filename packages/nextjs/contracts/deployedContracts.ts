@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     MockV3Aggregator: {
-      address: "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+      address: "0x9a676e781a523b5d0c0e43731313a708cb607508",
       abi: [
         {
           type: "constructor",
@@ -324,7 +324,7 @@ const deployedContracts = {
       },
     },
     VRFCoordinatorV2_5Mock: {
-      address: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+      address: "0x0b306bf915c4d645ff596e518faf3f9669b97016",
       abi: [
         {
           type: "constructor",
@@ -1547,7 +1547,7 @@ const deployedContracts = {
       },
     },
     LinkToken: {
-      address: "0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0",
+      address: "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
       abi: [
         {
           type: "constructor",
@@ -1946,7 +1946,7 @@ const deployedContracts = {
       },
     },
     Lottery: {
-      address: "0xdc64a140aa3e981100a9beca4e685f962f0cf6c9",
+      address: "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
       abi: [
         {
           type: "constructor",
@@ -2014,6 +2014,19 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "getCallbackGasLimit",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint32",
+              internalType: "uint32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "getEtherInUsd",
           inputs: [
             {
@@ -2033,13 +2046,65 @@ const deployedContracts = {
         },
         {
           type: "function",
+          name: "getGasLane",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "bytes32",
+              internalType: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getLotteryBalance",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getLotteryState",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint8",
+              internalType: "enum Lottery.LotteryState",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
           name: "getParticipants",
           inputs: [],
           outputs: [
             {
               name: "",
               type: "address[]",
-              internalType: "address[]",
+              internalType: "address payable[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getRecentWinner",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "address",
+              internalType: "address",
             },
           ],
           stateMutability: "view",
@@ -2064,6 +2129,19 @@ const deployedContracts = {
               name: "randomWords",
               type: "uint256[]",
               internalType: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+        },
+        {
+          type: "function",
+          name: "getSubscriptionId",
+          inputs: [],
+          outputs: [
+            {
+              name: "",
+              type: "uint256",
+              internalType: "uint256",
             },
           ],
           stateMutability: "view",
@@ -2310,6 +2388,31 @@ const deployedContracts = {
           anonymous: false,
         },
         {
+          type: "event",
+          name: "WinnerPicked",
+          inputs: [
+            {
+              name: "winner",
+              type: "address",
+              indexed: false,
+              internalType: "address",
+            },
+            {
+              name: "amountWon",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+            {
+              name: "numberOfParticipants",
+              type: "uint256",
+              indexed: false,
+              internalType: "uint256",
+            },
+          ],
+          anonymous: false,
+        },
+        {
           type: "error",
           name: "NotEnoughEthFunded",
           inputs: [],
@@ -2350,6 +2453,11 @@ const deployedContracts = {
               internalType: "address",
             },
           ],
+        },
+        {
+          type: "error",
+          name: "Raffle__TransferFailed",
+          inputs: [],
         },
         {
           type: "error",
