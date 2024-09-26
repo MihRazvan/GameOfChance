@@ -50,10 +50,10 @@ contract ScaffoldETHDeploy is Script {
                 gasLane: 0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae,
                 automationUpdateInterval: 30, // 30 seconds
                 callbackGasLimit: 500000, // 500,000 gas
-                account: 0x33a5608b3d641114f4d07576f2a6552baec9baa7,
-                vrfCoordinator: 0x9ddfaca8183c41ad55329bdeed9f6a8d53168b1b,
+                account: 0x33A5608b3D641114f4d07576F2a6552baec9baA7,
+                vrfCoordinator: 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B,
                 priceFeed: 0x694AA1769357215DE4FAC081bf1f309aDC325306,
-                link: 0x514910771AF9Ca656af840dff83E8264EcF986CA9
+                link: 0x779877A7B0D9E8603169DdbD7836e478b4624789
             });
             return config;
         } else if (block.chainid == LOCAL_CHAIN_ID) {
@@ -76,7 +76,7 @@ contract ScaffoldETHDeploy is Script {
             MOCK_WEI_PER_UINT_LINK
         );
         LinkToken link = new LinkToken();
-        uint256 subscriptionId = vrfCoordinatorV2_5Mock.createSubscription();
+        uint256 subscriptionId = mockVrfCoordinator.createSubscription();
         vm.stopBroadcast();
 
         // Add the mock price feed deployment to the deployments array
@@ -104,6 +104,7 @@ contract ScaffoldETHDeploy is Script {
             link: address(link),
             account: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
         });
+        vm.deal(config.account, 100 ether);
         return config;
     }
 
