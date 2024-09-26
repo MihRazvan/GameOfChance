@@ -42,49 +42,41 @@ contract Lottery is VRFConsumerBaseV2Plus {
         uint256[] randomWords;
     }
 
-    /** Variables */
+    /** Constants */
+
+    /** Lottery Variables */
     address[] private s_participants;
-
     AggregatorV3Interface private s_priceFeed;
-
     mapping(address => uint256) private s_participantsToAmountFunded;
+    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
+
+    // Chainlink VRF Variables
+    uint256 private immutable i_subscriptionId;
+    bytes32 private immutable i_gasLane;
+    uint32 private immutable i_callbackGasLimit;
+    uint16 private constant REQUEST_CONFIRMATIONS = 3;
+    uint32 private constant NUM_WORDS = 1;
+
     mapping(uint256 => RequestStatus)
         public s_requests; /* requestId --> requestStatus */
-
-    // Your subscription ID.
-    uint256 public s_subscriptionId;
 
     // Past request IDs.
     uint256[] public requestIds;
     uint256 public lastRequestId;
-
-    // The gas lane to use, which specifies the maximum gas price to bump to.
-    // For a list of available gas lanes on each network,
-    // see https://docs.chain.link/docs/vrf/v2-5/supported-networks
-    bytes32 public keyHash =
-        0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae;
-
-    uint32 public callbackGasLimit = 100000;
-
-    // The default is 3, but you can set this higher.
-    uint16 public requestConfirmations = 3;
-
-    // For this example, retrieve 1 random values in one request.
-    // Cannot exceed VRFCoordinatorV2_5.MAX_NUM_WORDS.
-    uint32 public numWords = 1;
-
-    /** Constants */
-    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
 
     /** Modifiers */
 
     constructor(
         AggregatorV3Interface priceFeed,
         address vrfCoordinator,
-        uint256 subscriptionId
+        uint256 subscriptionId,
+        bytes32 gasLane, // keyHash
+        uint32 callbackGasLimit
     ) VRFConsumerBaseV2Plus(vrfCoordinator) {
         s_priceFeed = priceFeed;
-        s_subscriptionId = subscriptionId;
+        i_gasLane = gasLane;
+        i_subscriptionId = subscriptionId;
+        i_callbackGasLimit = callbackGasLimit;
     }
 
     function getEtherInUsd(uint256 _ethValue) public view returns (uint256) {
@@ -111,11 +103,11 @@ contract Lottery is VRFConsumerBaseV2Plus {
 
         VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
             .RandomWordsRequest({
-                keyHash: keyHash,
-                subId: s_subscriptionId,
-                requestConfirmations: requestConfirmations,
-                callbackGasLimit: callbackGasLimit,
-                numWords: numWords,
+                keyHash: i_gasLane,
+                subId: i_subscriptionId,
+                requestConfirmations: REQUEST_CONFIRMATIONS,
+                callbackGasLimit: i_callbackGasLimit,
+                numWords: NUM_WORDS,
                 extraArgs: VRFV2PlusClient._argsToBytes(
                     VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )

@@ -15,6 +15,10 @@ contract ScaffoldETHDeploy is Script {
 
     struct Config {
         address priceFeed;
+        address vrfCoordinator;
+        uint256 subscriptionId;
+        bytes32 gasLane;
+        uint32 callbackGasLimit;
     }
 
     uint8 public constant DECIMALS = 8;
@@ -27,9 +31,13 @@ contract ScaffoldETHDeploy is Script {
     string path;
     Deployment[] public deployments;
 
-    function getConfig() public returns (address) {
+    Config config;
+
+    function getConfig() public returns (Config memory) {
         if (block.chainid == ETH_SEPOLIA_CHAIN_ID) {
-            return 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+            config.vrfCoordinator = 0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B;
+            config.priceFeed = 0x694AA1769357215DE4FAC081bf1f309aDC325306;
+            return config;
         } else if (block.chainid == LOCAL_CHAIN_ID) {
             return deployMockAndGetLocalConfig();
         } else {
@@ -37,7 +45,7 @@ contract ScaffoldETHDeploy is Script {
         }
     }
 
-    function deployMockAndGetLocalConfig() public returns (address) {
+    function deployMockAndGetLocalConfig() public returns (Config memory) {
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
         MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
@@ -51,7 +59,8 @@ contract ScaffoldETHDeploy is Script {
             Deployment({name: "MockV3Aggregator", addr: address(mockPriceFeed)})
         );
 
-        return address(mockPriceFeed);
+        config.priceFeed = address(mockPriceFeed);
+        return config;
     }
 
     /**
