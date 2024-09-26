@@ -29,7 +29,7 @@ contract Lottery is VRFConsumerBaseV2Plus {
 
     /** Events */
     event LotteryFunded(address indexed sender, uint256 amountSent);
-    event RequestSent(uint256 requestId, uint32 numWords);
+    event RequestSent(uint256 requestId);
     event RequestFulfilled(uint256 requestId, uint256[] randomWords);
 
     /** Errors */
@@ -67,13 +67,13 @@ contract Lottery is VRFConsumerBaseV2Plus {
     /** Modifiers */
 
     constructor(
-        AggregatorV3Interface priceFeed,
+        address priceFeed,
         address vrfCoordinator,
         uint256 subscriptionId,
         bytes32 gasLane, // keyHash
         uint32 callbackGasLimit
     ) VRFConsumerBaseV2Plus(vrfCoordinator) {
-        s_priceFeed = priceFeed;
+        s_priceFeed = AggregatorV3Interface(priceFeed);
         i_gasLane = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
@@ -120,7 +120,7 @@ contract Lottery is VRFConsumerBaseV2Plus {
         });
         requestIds.push(requestId);
         lastRequestId = requestId;
-        emit RequestSent(requestId, numWords);
+        emit RequestSent(requestId);
         return requestId;
     }
 

@@ -3,6 +3,7 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Script.sol";
 import {MockV3Aggregator} from "@chainlink/contracts/v0.8/tests/MockV3Aggregator.sol";
+import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 
 contract ScaffoldETHDeploy is Script {
     error InvalidChain();
@@ -23,6 +24,11 @@ contract ScaffoldETHDeploy is Script {
 
     uint8 public constant DECIMALS = 8;
     int256 public constant INITIAL_PRICE = 2640e8;
+
+    uint96 public MOCK_BASE_FEE = 0.25 ether;
+    uint96 public MOCK_GAS_PRICE_LINK = 1e9;
+    // LINK / ETH price
+    int256 public MOCK_WEI_PER_UINT_LINK = 4e15;
 
     uint256 public constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 public constant LOCAL_CHAIN_ID = 31337;
@@ -52,14 +58,26 @@ contract ScaffoldETHDeploy is Script {
             DECIMALS,
             INITIAL_PRICE
         );
+        VRFCoordinatorV2_5Mock mockVrfCoordinator = new VRFCoordinatorV2_5Mock(
+            MOCK_BASE_FEE,
+            MOCK_GAS_PRICE_LINK,
+            MOCK_WEI_PER_UINT_LINK
+        );
         vm.stopBroadcast();
 
         // Add the mock price feed deployment to the deployments array
         deployments.push(
             Deployment({name: "MockV3Aggregator", addr: address(mockPriceFeed)})
         );
+        deployments.push(
+            Deployment({
+                name: "MockVrfCoordinator",
+                addr: address(mockVrfCoordinator)
+            })
+        );
 
         config.priceFeed = address(mockPriceFeed);
+        config.vrfCoordinator = address(mockVrfCoordinator);
         return config;
     }
 

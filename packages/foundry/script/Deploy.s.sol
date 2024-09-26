@@ -8,16 +8,21 @@ import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces
 contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
-    address public priceFeed;
-
     function run() external {
-        // Since we inherit from ScaffoldETHDeploy, we can call getConfig() directly
-        priceFeed = getConfig();
+        ScaffoldETHDeploy deployHelpers = new ScaffoldETHDeploy();
+        ScaffoldETHDeploy.Config memory config = deployHelpers.getConfig();
+
         uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
 
         vm.startBroadcast(deployerPrivateKey);
 
-        Lottery lottery = new Lottery(AggregatorV3Interface(priceFeed));
+        Lottery lottery = new Lottery(
+            config.priceFeed,
+            config.vrfCoordinator,
+            config.subscriptionId,
+            config.gasLane,
+            config.callbackGasLimit
+        );
 
         // Add the Lottery deployment to the deployments array
         deployments.push(Deployment({name: "Lottery", addr: address(lottery)}));
