@@ -23,8 +23,9 @@ contract Lottery is VRFConsumerBaseV2Plus {
     /** Errors */
     error NotEnoughEthFunded();
     error Lottery__TransferFailed();
-    error Lottery__NotEndedYet();
     error Lottery__NoParticipants();
+    error Lottery__NotEndedYet();
+    error Lottery__LotteryNotOpen();
 
     /** Type declarations */
     struct RequestStatus {
@@ -101,12 +102,16 @@ contract Lottery is VRFConsumerBaseV2Plus {
      * Automatically ends the lottery if 3 minutes have passed and picks a winner
      */
     function endLottery() public {
-        require(s_lotteryState == LotteryState.OPEN, "Lottery is not open");
-        require(
-            block.timestamp >= s_lotteryStartTime + LOTTERY_DURATION,
-            "Lottery has not ended yet"
-        );
-        require(s_participants.length > 0, "No participants in the lottery");
+        if (s_lotteryState != LotteryState.OPEN) {
+            revert Lottery__LotteryNotOpen();
+        }
+        if (block.timestamp < s_lotteryStartTime + LOTTERY_DURATION) {
+            revert Lottery__NotEndedYet();
+        }
+
+        if (s_participants.length == 0) {
+            revert Lottery__NoParticipants();
+        }
 
         s_lotteryState = LotteryState.CALCULATING;
         requestRandomWords();
