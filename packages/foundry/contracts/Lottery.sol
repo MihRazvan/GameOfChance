@@ -1,20 +1,3 @@
-/** Contract elements should be laid out in the following order:
-Pragma statements
-Import statements
-Events
-Errors
-Interfaces
-Libraries
-Contracts
-
-Inside each contract, library or interface, use the following order:
-Type declarations
-State variables
-Events
-Errors
-Modifiers
-Functions */
-
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.19;
@@ -39,7 +22,9 @@ contract Lottery is VRFConsumerBaseV2Plus {
 
     /** Errors */
     error NotEnoughEthFunded();
-    error Raffle__TransferFailed();
+    error Lottery__TransferFailed();
+    error Lottery__NotEndedYet();
+    error Lottery__NoParticipants();
 
     /** Type declarations */
     struct RequestStatus {
@@ -49,12 +34,14 @@ contract Lottery is VRFConsumerBaseV2Plus {
     }
 
     /** Constants */
+    uint256 private constant LOTTERY_DURATION = 3 minutes;
+    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
 
     /** Lottery Variables */
     address payable[] private s_participants;
     AggregatorV3Interface private s_priceFeed;
     mapping(address => uint256) private s_participantsToAmountFunded;
-    uint256 private constant MIN_AMOUNT_TO_FUND = 50 * 1e18;
+    uint256 private s_lotteryStartTime;
     address private s_recentWinner;
 
     // Chainlink VRF Variables
@@ -90,6 +77,7 @@ contract Lottery is VRFConsumerBaseV2Plus {
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
         s_lotteryState = LotteryState.OPEN;
+        s_lotteryStartTime = block.timestamp;
     }
 
     function getEtherInUsd(uint256 _ethValue) public view returns (uint256) {
@@ -109,16 +97,25 @@ contract Lottery is VRFConsumerBaseV2Plus {
         emit LotteryFunded(msg.sender, msg.value);
     }
 
-    function requestRandomWords()
-        external
-        onlyOwner
-        returns (uint256 requestId)
-    {
-        require(s_lotteryState == LotteryState.OPEN, "Lottery not open");
+    /**
+     * Automatically ends the lottery if 3 minutes have passed and picks a winner
+     */
+    function endLottery() public {
+        require(s_lotteryState == LotteryState.OPEN, "Lottery is not open");
+        require(
+            block.timestamp >= s_lotteryStartTime + LOTTERY_DURATION,
+            "Lottery has not ended yet"
+        );
         require(s_participants.length > 0, "No participants in the lottery");
 
         s_lotteryState = LotteryState.CALCULATING;
+        requestRandomWords();
+    }
 
+    /**
+     * Requests random words from Chainlink VRF to pick a winner.
+     */
+    function requestRandomWords() internal {
         VRFV2PlusClient.RandomWordsRequest memory request = VRFV2PlusClient
             .RandomWordsRequest({
                 keyHash: i_gasLane,
@@ -130,7 +127,7 @@ contract Lottery is VRFConsumerBaseV2Plus {
                     VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
                 )
             });
-        requestId = s_vrfCoordinator.requestRandomWords(request);
+        uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
         s_requests[requestId] = RequestStatus({
             randomWords: new uint256[](0),
             exists: true,
@@ -139,7 +136,6 @@ contract Lottery is VRFConsumerBaseV2Plus {
         requestIds.push(requestId);
         lastRequestId = requestId;
         emit RequestSent(requestId);
-        return requestId;
     }
 
     function fulfillRandomWords(
@@ -159,59 +155,50 @@ contract Lottery is VRFConsumerBaseV2Plus {
 
         (bool success, ) = winner.call{value: address(this).balance}("");
         if (!success) {
-            revert Raffle__TransferFailed();
+            revert Lottery__TransferFailed();
         }
 
         // Reset the lottery state
         s_participants = new address payable[](0); // Clear participants
         s_lotteryState = LotteryState.OPEN; // Reopen the lottery
+        s_lotteryStartTime = block.timestamp; // Restart the timer
     }
 
     /** Getter Functions */
-
-    // Get the list of participants in the lottery
     function getParticipants() public view returns (address payable[] memory) {
         return s_participants;
     }
 
-    // Get the amount funded by a specific participant
     function getAmountFundedByParticipant(
         address _participant
     ) public view returns (uint256) {
         return s_participantsToAmountFunded[_participant];
     }
 
-    // Get the current lottery state (OPEN or CALCULATING)
     function getLotteryState() public view returns (LotteryState) {
         return s_lotteryState;
     }
 
-    // Get the most recent lottery winner
     function getRecentWinner() public view returns (address) {
         return s_recentWinner;
     }
 
-    // Get the total ETH balance of the lottery
     function getLotteryBalance() public view returns (uint256) {
         return address(this).balance;
     }
 
-    // Get the Chainlink VRF subscription ID
     function getSubscriptionId() public view returns (uint256) {
         return i_subscriptionId;
     }
 
-    // Get the Chainlink VRF gas lane (keyHash)
     function getGasLane() public view returns (bytes32) {
         return i_gasLane;
     }
 
-    // Get the Chainlink VRF callback gas limit
     function getCallbackGasLimit() public view returns (uint32) {
         return i_callbackGasLimit;
     }
 
-    // Get the status of a VRF request by request ID
     function getRequestStatus(
         uint256 _requestId
     ) public view returns (bool fulfilled, uint256[] memory randomWords) {
