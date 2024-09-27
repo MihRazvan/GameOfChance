@@ -8,13 +8,11 @@ import {AggregatorV3Interface} from "@chainlink/contracts/v0.8/shared/interfaces
 contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
-    function run() external {
+    function run() external returns (Lottery, ScaffoldETHDeploy) {
         ScaffoldETHDeploy deployHelpers = new ScaffoldETHDeploy();
         ScaffoldETHDeploy.Config memory config = deployHelpers.getConfig();
 
-        uint256 deployerPrivateKey = vm.envUint("DEPLOYER_PRIVATE_KEY");
-
-        vm.startBroadcast(deployerPrivateKey);
+        vm.startBroadcast(config.account);
 
         Lottery lottery = new Lottery(
             config.priceFeed,
@@ -35,5 +33,7 @@ contract DeployScript is ScaffoldETHDeploy {
          * This function should be called last.
          */
         exportDeployments();
+
+        return (lottery, deployer);
     }
 }

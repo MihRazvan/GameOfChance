@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     MockV3Aggregator: {
-      address: "0x9a676e781a523b5d0c0e43731313a708cb607508",
+      address: "0xc3e53f4d16ae77db1c982e75a937b9f60fe63690",
       abi: [
         {
           type: "constructor",
@@ -324,7 +324,7 @@ const deployedContracts = {
       },
     },
     VRFCoordinatorV2_5Mock: {
-      address: "0x0b306bf915c4d645ff596e518faf3f9669b97016",
+      address: "0x84ea74d481ee0a5332c457a4d796187f6ba67feb",
       abi: [
         {
           type: "constructor",
@@ -1547,7 +1547,7 @@ const deployedContracts = {
       },
     },
     LinkToken: {
-      address: "0x959922be3caee4b8cd9a407cc3ac1c251c2007b1",
+      address: "0x9e545e3c0baab3e08cdfd552c960a1050f373042",
       abi: [
         {
           type: "constructor",
@@ -1946,7 +1946,7 @@ const deployedContracts = {
       },
     },
     Lottery: {
-      address: "0x68b1d87f95878fe05b998f19b66f4baba5de1aed",
+      address: "0x1613beb3b2c4f22ee086b2b38c1476a3ce7f78e8",
       abi: [
         {
           type: "constructor",
