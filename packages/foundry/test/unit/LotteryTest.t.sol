@@ -112,7 +112,7 @@ contract LotteryTest is Test {
         ) {
             address player = address(uint160(i));
             hoax(player, 1 ether); // Fund player with 1 ETH
-            vm.prank(player); // Prank each player entering the lottery
+            // vm.prank(player); // Prank each player entering the lottery
             lottery.fundLottery{value: MINIMUM_ETH}(); // Each player enters the lottery
         }
 
