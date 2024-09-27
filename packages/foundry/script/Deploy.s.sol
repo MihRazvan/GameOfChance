@@ -9,8 +9,8 @@ contract DeployScript is ScaffoldETHDeploy {
     error InvalidPrivateKey(string);
 
     function run() external returns (Lottery, ScaffoldETHDeploy) {
-        ScaffoldETHDeploy deployHelpers = new ScaffoldETHDeploy();
-        ScaffoldETHDeploy.Config memory config = deployHelpers.getConfig();
+        ScaffoldETHDeploy deployer = new ScaffoldETHDeploy();
+        ScaffoldETHDeploy.Config memory config = deployer.getConfig();
 
         vm.startBroadcast(config.account);
 
