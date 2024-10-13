@@ -1,5 +1,5 @@
 
-# 🎲 Lottery Smart Contract
+# 🎲 Game Of Chance
 
 <h4 align="center">
   <a href="#overview">Overview</a> |
