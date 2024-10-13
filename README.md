@@ -1,80 +1,127 @@
-# 🏗 Scaffold-ETH 2
+
+# 🎲 Lottery Smart Contract
 
 <h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
+  <a href="#overview">Overview</a> |
+  <a href="#quickstart">Quickstart</a> |
+  <a href="#documentation">Documentation</a>
 </h4>
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+This project implements a decentralized lottery system using Chainlink VRF (Verifiable Random Function) for randomness and Chainlink Price Feeds to ensure the lottery entry is pegged to a minimum USD value. Participants can fund the lottery, and a random winner is selected after a specified duration.
 
-⚙️ Built using NextJS, RainbowKit, Foundry, Wagmi, Viem, and Typescript.
+⚙️ Built using **Foundry**, **Scaffold-ETH2**, **Chainlink VRF**, and **Chainlink Price Feeds**.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
-
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+- 🎰 **Randomness with Chainlink VRF**: Guarantees a verifiably random lottery outcome.
+- 💲 **USD Pricing with Chainlink Price Feeds**: Ensures participants contribute a minimum amount in USD, regardless of ETH price volatility.
+- 🔄 **Automatic Lottery Reset**: After every round, the lottery resets, allowing for continuous operation.
+- 🔐 **Safe Fund Distribution**: Winnings are automatically sent to the lottery winner securely.
 
 ## Requirements
 
 Before you begin, you need to install the following tools:
 
 - [Node (>= v18.17)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
+- [Yarn](https://yarnpkg.com/getting-started/install)
+- [Foundry](https://github.com/foundry-rs/foundry)
 - [Git](https://git-scm.com/downloads)
 
 ## Quickstart
 
-To get started with Scaffold-ETH 2, follow the steps below:
+To get started with the Lottery Smart Contract, follow the steps below:
 
-1. Install dependencies if it was skipped in CLI:
+### 1. Install Dependencies
 
-```
-cd my-dapp-example
+If you haven't installed dependencies already:
+
+\`\`\`bash
 yarn install
-```
+\`\`\`
 
-2. Run a local network in the first terminal:
+### 2. Run a Local Ethereum Network
 
-```
+In the first terminal, run a local Ethereum network:
+
+\`\`\`bash
 yarn chain
-```
+\`\`\`
 
-This command starts a local Ethereum network using Foundry. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/foundry/foundry.toml`.
+This starts a local blockchain using Foundry. You can customize the network configuration in `foundry.toml`.
 
-3. On a second terminal, deploy the test contract:
+### 3. Deploy the Lottery Contract
 
-```
+In the second terminal, deploy the contract:
+
+\`\`\`bash
 yarn deploy
-```
+\`\`\`
 
-This command deploys a test smart contract to the local network. The contract is located in `packages/foundry/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/foundry/script` to deploy the contract to the network. You can also customize the deploy script.
+This deploys the `Lottery.sol` contract to the local network. The contract can be modified in `contracts/`.
 
-4. On a third terminal, start your NextJS app:
+### 4. Start the Frontend
 
-```
+In the third terminal, start the Next.js app:
+
+\`\`\`bash
 yarn start
-```
+\`\`\`
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+Visit your app at `http://localhost:3000` to interact with the lottery contract. You can monitor the contract's state and interactions via the web UI.
 
-Run smart contract test with `yarn foundry:test`
+## Key Features
 
-- Edit your smart contract `YourContract.sol` in `packages/foundry/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/foundry/script`
+- **Fund the Lottery**: Participants can enter by sending a minimum amount of ETH, pegged to a USD value through Chainlink Price Feeds.
+- **End the Lottery**: Automatically ends after 3 minutes and picks a winner using Chainlink VRF.
+- **Distribute Winnings**: The smart contract transfers the entire lottery balance to the selected winner.
 
+## Contract Details
+
+### Lottery.sol
+
+The primary contract of the system, `Lottery.sol`, manages:
+- **Funding**: Users send ETH to enter the lottery.
+- **Randomness**: Uses Chainlink VRF to ensure the winner is selected randomly.
+- **Payouts**: Distributes the lottery funds to the winner automatically.
+
+### PriceConverter.sol
+
+A utility library, `PriceConverter.sol`, converts ETH amounts to USD using Chainlink Price Feeds. This ensures that all participants meet the minimum entry requirement in USD.
+
+### Deploy.s.sol
+
+The `Deploy.s.sol` script is used to deploy the Lottery contract. It configures the lottery with Chainlink Price Feeds and VRF settings, handling both local and live environments.
+
+## Running Tests
+
+You can run the tests using Foundry’s test framework:
+
+\`\`\`bash
+forge test
+\`\`\`
+
+The tests include mocks for the Chainlink Price Feeds and VRF for local testing.
+
+## Deployment to Sepolia Testnet
+
+To deploy the contracts to Sepolia, set up your `.env` file with the required variables:
+
+\`\`\`bash
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
+PRIVATE_KEY=YOUR_PRIVATE_KEY
+ETHERSCAN_API_KEY=YOUR_ETHERSCAN_API_KEY
+\`\`\`
+
+Then deploy:
+
+\`\`\`bash
+forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $ETHERSCAN_API_KEY
+\`\`\`
 
 ## Documentation
 
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
+For a detailed explanation of how the lottery works, as well as customization options, visit the project documentation:
 
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+- **Contract Documentation**: [Lottery.sol](contracts/Lottery.sol)
+- **Price Converter**: [PriceConverter.sol](contracts/PriceConverter.sol)
+- **Chainlink VRF**: [VRF Consumer Guide](https://docs.chain.link/docs/get-a-random-number/)
+  
+Check out Scaffold-ETH’s [documentation](https://docs.scaffoldeth.io) for more on how this project integrates with the Scaffold-ETH2 framework.
